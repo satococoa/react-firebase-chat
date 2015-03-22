@@ -1,7 +1,6 @@
 window.onload = function() {
-  console.log('hoge');
   React.render(
-    <CommentForm />,
+    <CommentBox />,
     document.getElementById('container')
   );
 };
