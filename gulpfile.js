@@ -27,6 +27,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
+var react = require('gulp-react');
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -102,6 +103,13 @@ gulp.task('styles', function () {
     .pipe($.size({title: 'styles'}));
 });
 
+gulp.task('react', function () {
+  return gulp.src('app/**/*.jsx')
+    .pipe(react())
+    .pipe(gulp.dest('.tmp'))
+    .pipe(gulp.dest('dist'));
+});
+
 // Scan Your HTML For Assets & Optimize Them
 gulp.task('html', function () {
   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
@@ -142,7 +150,7 @@ gulp.task('html', function () {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles'], function () {
+gulp.task('serve', ['styles', 'react'], function () {
   browserSync({
     notify: false,
     // Run as an https by uncommenting 'https: true'
@@ -154,6 +162,7 @@ gulp.task('serve', ['styles'], function () {
 
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
+  gulp.watch(['app/scripts/**/*.jsx'], ['react', reload]);
   gulp.watch(['app/scripts/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);
 });
@@ -172,7 +181,7 @@ gulp.task('serve:dist', ['default'], function () {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (cb) {
-  runSequence('styles', ['jshint', 'html', 'images', 'fonts', 'copy'], cb);
+  runSequence('styles', 'react', ['html', 'images', 'fonts', 'copy'], cb);
 });
 
 // Run PageSpeed Insights
