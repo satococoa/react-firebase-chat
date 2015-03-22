@@ -90,7 +90,8 @@ gulp.task('styles', function () {
     .pipe($.changed('styles', {extension: '.scss'}))
     .pipe($.rubySass({
       style: 'expanded',
-      precision: 10
+      precision: 10,
+      bundleExec: true
     }))
     .on('error', console.error.bind(console))
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
