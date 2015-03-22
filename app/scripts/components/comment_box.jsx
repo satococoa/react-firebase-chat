@@ -1,6 +1,6 @@
 var comments = [
-  {author: 'foo', text: 'bar'},
-  {author: 'foo2', text: 'bar2'}
+  {id: 1, author: 'foo', text: 'bar'},
+  {id: 2, author: 'foo2', text: 'bar2'}
 ];
 
 var CommentBox = React.createClass({
@@ -26,7 +26,7 @@ var CommentList = React.createClass({
   render: function() {
     var comments = this.props.data.map(function(comment) {
       return (
-        <Comment author={comment.author}>
+        <Comment key={comment.id} author={comment.author}>
           {comment.text}
         </Comment>
       )
