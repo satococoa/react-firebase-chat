@@ -56,7 +56,7 @@ var CommentList = React.createClass({
     });
     return (
       <ul className="commentList">
-        {comments}
+        {comments.reverse()}
       </ul>
     );
   }
