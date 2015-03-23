@@ -1,14 +1,14 @@
 var comments = [
-  {id: 1, author: 'foo', text: 'bar'},
-  {id: 2, author: 'foo2', text: 'bar2'}
+  {id: 1, name: 'foo', text: 'bar'},
+  {id: 2, name: 'foo2', text: 'bar2'}
 ];
 
 var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
-        <CommentList data={comments} />
         <CommentForm />
+        <CommentList data={comments} />
       </div>
     );
   }
@@ -17,7 +17,14 @@ var CommentBox = React.createClass({
 var Comment = React.createClass({
   render: function() {
     return (
-      <li>{this.props.author}: {this.props.children}</li>
+      <li className="commentList__comment">
+        <div className="commentList__name">
+          {this.props.name}
+        </div>
+        <div className="commentList__body">
+          {this.props.children}
+        </div>
+      </li>
     )
   }
 });
@@ -26,7 +33,7 @@ var CommentList = React.createClass({
   render: function() {
     var comments = this.props.data.map(function(comment) {
       return (
-        <Comment key={comment.id} author={comment.author}>
+        <Comment key={comment.id} name={comment.name}>
           {comment.text}
         </Comment>
       )
@@ -43,8 +50,12 @@ var CommentForm = React.createClass({
   render: function() {
     return (
       <form className="commentForm">
-        <input type="text" placeholder="Your name..." ref="name" />
-        <textarea ref="comment"></textarea>
+        <div className="commentForm__name">
+          <input type="text" placeholder="Your name..." ref="name" />
+        </div>
+        <div className="commentForm__body">
+          <input type="text" placeholder="Comment here..." ref="comment" />
+        </div>
       </form>
     );
   }

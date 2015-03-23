@@ -1,3 +1,39 @@
 @import "bourbon/bourbon";
 @import "neat/neat";
 @import "base/base";
+
+body {
+  font-size: mobular-scale(1);
+}
+
+// CommentForm
+.commentForm {
+  @include outer-container;
+}
+.commentForm__name {
+  @include span-columns(3);
+}
+.commentForm__body {
+  @include span-columns(9);
+  @include omega();
+}
+
+// CommentList
+.commentList {
+}
+.commentList__comment {
+  @include outer-container;
+  border-bottom: 1px solid #eeeeee;
+  > div {
+    font-size: modular-scale(2);
+  }
+}
+.commentList__name {
+  @include span-columns(2);
+  color: #9d9d9d;
+}
+.commentList__body {
+  @include span-columns(10);
+  @include omega();
+  color: #333333;
+}
