@@ -1,7 +1,5 @@
-var comments = [
-  {id: 1, name: 'foo', text: 'bar'},
-  {id: 2, name: 'foo2', text: 'bar2'}
-];
+// setup firebase
+var firebaseRef = new Firebase("https://reactchat-satococoa.firebaseio.com/");
 
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -11,12 +9,16 @@ var CommentBox = React.createClass({
     this.fetchComment();
   },
   fetchComment: function() {
-    this.setState({data: comments});
+    firebaseRef.child('comments').on('child_added', function(snapshot) {
+      comment = snapshot.val();
+      comment.id = snapshot.key();
+      data = this.state.data;
+      data.push(comment);
+      this.setState({data: data});
+    }.bind(this));
   },
   postComment: function(comment) {
-    data = this.state.data;
-    data.push(comment);
-    this.setState({data: data});
+    firebaseRef.child('comments').push(comment);
   },
   render: function() {
     return (
