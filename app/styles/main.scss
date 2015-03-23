@@ -14,7 +14,10 @@ body {
   @include span-columns(3);
 }
 .commentForm__body {
-  @include span-columns(9);
+  @include span-columns(7);
+}
+.commentForm__submit {
+  @include span-columns(2);
   @include omega();
 }
 

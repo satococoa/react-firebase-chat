@@ -4,11 +4,25 @@ var comments = [
 ];
 
 var CommentBox = React.createClass({
+  getInitialState: function() {
+    return {data: []}
+  },
+  componentDidMount: function() {
+    this.fetchComment();
+  },
+  fetchComment: function() {
+    this.setState({data: comments});
+  },
+  postComment: function(comment) {
+    data = this.state.data;
+    data.push(comment);
+    this.setState({data: data});
+  },
   render: function() {
     return (
       <div className="commentBox">
-        <CommentForm />
-        <CommentList data={comments} />
+        <CommentForm commentHandler={this.postComment} />
+        <CommentList data={this.state.data} />
       </div>
     );
   }
@@ -25,7 +39,7 @@ var Comment = React.createClass({
           {this.props.children}
         </div>
       </li>
-    )
+    );
   }
 });
 
@@ -36,7 +50,7 @@ var CommentList = React.createClass({
         <Comment key={comment.id} name={comment.name}>
           {comment.text}
         </Comment>
-      )
+      );
     });
     return (
       <ul className="commentList">
@@ -47,14 +61,28 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    nameElem = React.findDOMNode(this.refs.name);
+    commentElem = React.findDOMNode(this.refs.comment);
+    comment = {
+      name: nameElem.value.trim(),
+      text: commentElem.value.trim()
+    };
+    commentElem.value = '';
+    this.props.commentHandler(comment);
+  },
   render: function() {
     return (
-      <form className="commentForm">
+      <form className="commentForm" onSubmit={this.handleSubmit}>
         <div className="commentForm__name">
           <input type="text" placeholder="Your name..." ref="name" />
         </div>
         <div className="commentForm__body">
           <input type="text" placeholder="Comment here..." ref="comment" />
+        </div>
+        <div className="commentForm__submit">
+          <input type="submit" value="Submit" />
         </div>
       </form>
     );
